@@ -1,0 +1,15 @@
+'{
+  "blueprint" : "blueprint-exemplarcluster2",
+  "default_password" : "my-super-secret-password",
+  "host_groups" :[
+    {
+      "name" : "host_group_1",
+      "hosts" : [
+        {
+          "fqdn" : "ip-10-216-62-182.us-west-2.compute.internal"
+        }
+      ]
+    }
+  ]
+}
+'
