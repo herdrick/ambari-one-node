@@ -48,6 +48,6 @@ sudo ambari-server restart
 curl -v -X POST -d @blueprint-big-1.json http://admin:admin@localhost:8080/api/v1/blueprints/bp-all-services --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
 
 my_fqdn=$(hostname -f)
-sed s/FQDN_GOES_HERE/$my_fqdn/ cluster-creation-raw.json > echo cluster-creation.json
+sed s/FQDN_GOES_HERE/$my_fqdn/ cluster-creation-raw.json > cluster-creation.json
 
 curl -v -X POST -d @cluster-creation.json http://admin:admin@localhost:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
