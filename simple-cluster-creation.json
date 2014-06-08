@@ -6,7 +6,7 @@
       "name" : "host_group_1",
       "hosts" : [
         {
-          "fqdn" : "ip-10-216-62-182.us-west-2.compute.internal"
+          "fqdn" : "FQDN_GOES_HERE"
         }
       ]
     }

@@ -50,6 +50,8 @@ curl -X POST -d @cluster-creation-template-1.json http://admin:admin@amb:8080/ap
 
 
 
+my_fqdn=$(hostname -f)
+sed s/FQDN_GOES_HERE/$my_fqdn/ simple-cluster-creation.json > echo cluster-creation-$my_fqdn.json
 
 amb-bp-source:
 nagios password: jaskldjja3kas
