@@ -22,14 +22,13 @@ sudo ambari-server restart
 
 # POST /api/v1/blueprints/single-node-hdfs-yarn
 #works
-curl -v -X POST -d @blueprint-1.json http://admin:admin@localhost:8080/api/v1/blueprints/ethan-bp-1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
+#curl -v -X POST -d @blueprint-1.json http://admin:admin@localhost:8080/api/v1/blueprints/ethan-bp-1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
 
 #curl -v -X POST -d @create-cluster-1.json http://admin:admin@localhost:8080/api/v1/blueprints/single-node-hdfs-yarn --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
 
 # create cluster
 #/api/v1/clusters/MySingleNodeCluster
 # in the docs, default-password field should be default_password
-curl -v -X POST -d @create-cluster-1.json http://admin:admin@localhost:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
 #curl -v -X POST -d @cluster-creation-template-1.json http://admin:admin@amb:8080/api/v1/clusters/cl2 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
 
 #issues:
@@ -38,44 +37,19 @@ curl -v -X POST -d @create-cluster-1.json http://admin:admin@localhost:8080/api/
 #weird, gotta enclose the json file in quotes
 
 # need to try the create cluster json with localhost in place of ip-10-253-35-49.us-west-2.compute.internal
-# can't find where ip-10-253-35-49.us-west-2.compute.internal is in any config files on the server. and yet there it is: http://ambp2:8080/api/v1/hosts
 
-
-#no:
-curl -X POST -d @blueprint-example.json http://admin:admin@amb:8080/api/v1/blueprints/single-node-hdfs-yarn --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
-
-# create cluster   no
-curl -X POST -d @cluster-creation-template-1.json http://admin:admin@amb:8080/api/v1/clusters/cluster_1
+#curl -v -X POST -d @simple-blueprint.json http://admin:admin@amb-bp-target-simple-1:8080/api/v1/blueprints/blueprint-exemplarcluster --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
+#curl -v -X POST -d @simple-cluster-creation.json http://admin:admin@amb-bp-target-simple-1:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
 
 
 
+
+#note: bug in making blueprints - it isn't giving me a nagios password in 'configurations' section. in fact it isn't making such a section.
+
+# actually working!
+curl -v -X POST -d @blueprint-big-1.json http://admin:admin@localhost:8080/api/v1/blueprints/blueprint-exemplarcluster --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
 
 my_fqdn=$(hostname -f)
 sed s/FQDN_GOES_HERE/$my_fqdn/ simple-cluster-creation.json > echo cluster-creation-$my_fqdn.json
 
-amb-bp-source:
-nagios password: jaskldjja3kas
-
-
-simple-target-1
-
-# these are the best NO:
-curl -v -X POST -d @simple-blueprint.json http://admin:admin@amb-bp-target-simple-1:8080/api/v1/blueprints/blueprint-exemplarcluster --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
-curl -v -X POST -d @simple-cluster-creation.json http://admin:admin@amb-bp-target-simple-1:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
-
-
-
-
-blueprint-exemplarcluster:
-note: bug in making blueprints - it isn't giving me a nagios password in 'configurations' section. in fact it isn't making such a section.
-
-# actually working!!!
-curl -v -X POST -d @blueprint-big-1.json http://admin:admin@amb-bp-target-big-2:8080/api/v1/blueprints/blueprint-exemplarcluster2 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
-
-
-curl -v -X POST -d @simple-cluster-creation.json http://admin:admin@amb-bp-target-big-2:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
-
-
-
-
-next up - make an even simpler cluster - just HDFS and Zookeepers.  Fuck monitoring.
+curl -v -X POST -d @cluster-creation-$my_fqdn.json http://admin:admin@localhost:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
