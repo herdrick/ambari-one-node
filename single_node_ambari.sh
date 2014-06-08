@@ -47,9 +47,9 @@ sudo ambari-server restart
 #note: bug in making blueprints - it isn't giving me a nagios password in 'configurations' section. in fact it isn't making such a section.
 
 # actually working!
-curl -v -X POST -d @blueprint-big-1.json http://admin:admin@localhost:8080/api/v1/blueprints/blueprint-exemplarcluster --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
+curl -v -X POST -d @blueprint-big-1.json http://admin:admin@localhost:8080/api/v1/blueprints/bp-all-services --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
 
 my_fqdn=$(hostname -f)
-sed s/FQDN_GOES_HERE/$my_fqdn/ simple-cluster-creation.json > echo cluster-creation-$my_fqdn.json
+sed s/FQDN_GOES_HERE/$my_fqdn/ cluster-creation-raw.json > echo cluster-creation.json
 
-curl -v -X POST -d @cluster-creation-$my_fqdn.json http://admin:admin@localhost:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
+curl -v -X POST -d @cluster-creation.json http://admin:admin@localhost:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'

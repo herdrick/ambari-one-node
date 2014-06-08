@@ -1,6 +1,6 @@
 '{
-  "blueprint" : "blueprint-exemplarcluster2",
-  "default_password" : "my-super-secret-password",
+  "blueprint" : "bp-all-services",
+  "default_password" : "ambari-default-password",
   "host_groups" :[
     {
       "name" : "host_group_1",
