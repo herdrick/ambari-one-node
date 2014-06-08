@@ -18,8 +18,6 @@ sudo ambari-agent restart
 sudo ambari-server setup -v -s
 sudo ambari-server restart
 
-
-
 # POST /api/v1/blueprints/single-node-hdfs-yarn
 #works
 #curl -v -X POST -d @blueprint-1.json http://admin:admin@localhost:8080/api/v1/blueprints/ethan-bp-1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
