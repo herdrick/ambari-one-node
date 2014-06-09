@@ -28,6 +28,7 @@ while [ $s != '200' ]; do
     s=$(curl -o /dev/null -s -w %{http_code} http://admin:admin@localhost:8080/api/v1/blueprints)
     echo "HTTP status: $s"
 done
+sleep 2
 
 curl -v -X POST -d @blueprint-big-1.json http://admin:admin@localhost:8080/api/v1/blueprints/bp-all-services --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
 my_fqdn=$(hostname -f)
