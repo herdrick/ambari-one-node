@@ -21,15 +21,26 @@ sudo ambari-server restart
 # note: bug in making blueprints - it isn't giving me a nagios contact email in 'configurations' section, which is required. in fact it isn't making such a section.
 
 
-v=0
+s=0
+echo "Trying http://localhost:8080/api/v1/blueprints to confirm server is up... (HTTP status 000 = not up)"
 while [ $v != '200' ]; do
-    v=$(curl -o /dev/null -s -w %{http_code} http://admin:admin@localhost:8080/api/v1/blueprints)
-    echo "v = $v"
-    path=''
     sleep 1
+    s=$(curl -o /dev/null -s -w %{http_code} http://admin:admin@localhost:8080/api/v1/blueprints)
+    echo "HTTP status: $s"
+    path=''
 done
 
 curl -v -X POST -d @blueprint-big-1.json http://admin:admin@localhost:8080/api/v1/blueprints/bp-all-services --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
 my_fqdn=$(hostname -f)
 sed s/FQDN_GOES_HERE/$my_fqdn/ cluster-creation-raw.json > cluster-creation.json
+
+s=0
+echo "Trying http://localhost:8080/api/v1/blueprints to confirm server is ready..."
+while [ $v != '200' ]; do
+    sleep 1
+    s=$(curl -o /dev/null -s -w %{http_code} http://admin:admin@localhost:8080/api/v1/blueprints)
+    echo "HTTP status: $s"
+    path=''
+done
+
 curl -v -X POST -d @cluster-creation.json http://admin:admin@localhost:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
