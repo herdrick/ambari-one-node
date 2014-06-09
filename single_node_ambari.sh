@@ -22,9 +22,16 @@ sudo ambari-server restart
 # weird, gotta enclose the json file in quotes
 # note: bug in making blueprints - it isn't giving me a nagios contact email in 'configurations' section, which is required. in fact it isn't making such a section.
 
-curl -v -X POST -d @blueprint-big-1.json http://admin:admin@localhost:8080/api/v1/blueprints/bp-all-services --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
 
+v=0
+while [ $v != '200' ]; do
+    v=$(curl -o /dev/null -s -w %{http_code} http://admin:admin@localhost:8080/api/v1/blueprints)
+    echo "v = $v"
+    path=''
+    sleep 1
+done
+
+curl -v -X POST -d @blueprint-big-1.json http://admin:admin@localhost:8080/api/v1/blueprints/bp-all-services --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
 my_fqdn=$(hostname -f)
 sed s/FQDN_GOES_HERE/$my_fqdn/ cluster-creation-raw.json > cluster-creation.json
-
 curl -v -X POST -d @cluster-creation.json http://admin:admin@localhost:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
