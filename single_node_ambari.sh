@@ -7,19 +7,9 @@ sudo service ntpd restart
 sudo wget -P /etc/yum.repos.d/ http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.0/ambari.repo
 sudo yum -y install ambari-server ambari-agent
 
-#sudo mkdir -p /etc/ambari-agent/conf/
-#echo "hostname=ip-10-233-132-184.us-west-2.compute.internal" > /etc/ambari-agent/conf/ambari-agent.ini   # not needed for RHEL
-
 sudo ambari-agent restart
 sudo ambari-server setup -v -s
 sudo ambari-server restart
-
-#issues:
-# in the docs, default-password field should be default_password
-# ambari-server start -s is awesome. but it assigns default password to PostGres 'bigdata'.
-# weird, gotta enclose the json file in quotes
-# note: bug in making blueprints - it isn't giving me a nagios contact email in 'configurations' section, which is required. in fact it isn't making such a section.
-
 
 s=0
 echo "Trying http://localhost:8080/api/v1/blueprints to confirm server is up... (HTTP status 000 = not up)"
