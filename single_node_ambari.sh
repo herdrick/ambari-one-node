@@ -25,13 +25,14 @@ my_fqdn=$(hostname -f)
 sed s/FQDN_GOES_HERE/$my_fqdn/ cluster-creation-raw.json > cluster-creation.json
 
 s=0
-echo "Trying http://localhost:8080/api/v1/blueprints to confirm server is ready..."
+echo "trying http://localhost:8080/api/v1/blueprints to confirm server is ready..."
 while [ $s != '200' ]; do
-    sleep 1
+    sleep 2
     s=$(curl -o /dev/null -s -w %{http_code} http://admin:admin@localhost:8080/api/v1/blueprints)
     echo "HTTP status: $s"
 done
 
 curl http://admin:admin@localhost:8080/api/v1/hosts
+echo 'pausing for 15 seconds to let server settle down'
 sleep 15
 curl -v -X POST -d @cluster-creation.json http://admin:admin@localhost:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
