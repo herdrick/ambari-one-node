@@ -4,9 +4,7 @@ sudo yum install -y ntp ntpdate ntp-doc
 # looks like we already had ntpd and ntpupdate installed
 sudo chkconfig ntpd on
 sudo service ntpd restart
-cd /etc/yum.repos.d/
-sudo wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.0/ambari.repo
-cd
+sudo wget -P /etc/yum.repos.d/ http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.6.0/ambari.repo
 sudo yum -y install ambari-server ambari-agent
 
 #sudo mkdir -p /etc/ambari-agent/conf/
