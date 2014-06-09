@@ -42,4 +42,5 @@ while [ $s != '200' ]; do
 done
 
 curl http://admin:admin@localhost:8080/api/v1/hosts
+sleep 15
 curl -v -X POST -d @cluster-creation.json http://admin:admin@localhost:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
