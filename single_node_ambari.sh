@@ -6,7 +6,7 @@ function wait_until_some_http_status () {
     s=0
     while [ $s != $target_status ]; do
         s=$(curl -o /dev/null -s -w %{http_code} $url)
-        if [ $s == '000' ]
+        if [ $s == "000" ]
         then
             echo "<no response from server>"
         else
@@ -31,7 +31,7 @@ echo "trying http://localhost:8080/api/v1/blueprints to confirm Ambari server is
 wait_until_some_http_status "http://admin:admin@localhost:8080/api/v1/blueprints" "200"
 sleep 2
 
-curl -v -X POST -d @blueprint-big-1.json http://admin:admin@localhost:8080/api/v1/blueprints/bp-all-services --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
+curl -v -X POST -d @blueprint-big-1.json http://admin:admin@localhost:8080/api/v1/blueprints/bp-all-services --header "Content-Type:application/json" --header "X-Requested-By:mycompany"
 
 echo "trying http://localhost:8080/api/v1/clusters to confirm Ambari server is still up..."
 wait_until_some_http_status "http://admin:admin@localhost:8080/api/v1/clusters" "200"
@@ -41,7 +41,9 @@ sed s/FQDN_GOES_HERE/$my_fqdn/ cluster-creation-raw.json > cluster-creation.json
 
 curl http://admin:admin@localhost:8080/api/v1/hosts
 
-echo
-echo 'pausing for 15 seconds to let Ambari server settle down'
+echo ""
+echo "pausing for 15 seconds to let Ambari server settle down"
 sleep 15
-curl -v -X POST -d @cluster-creation.json http://admin:admin@localhost:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
+curl -v -X POST -d @cluster-creation.json http://admin:admin@localhost:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header "X-Requested-By:mycompany"
+echo ""
+echo "Single node Ambari setup finished. Point browser to localhost:8080 and log in as admin:admin to use Ambari."
