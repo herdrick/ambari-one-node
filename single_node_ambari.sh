@@ -12,7 +12,7 @@ function wait_until_some_http_status () {
         else
             echo "HTTP status: $s"
         fi
-        sleep 1
+        sleep 2
     done
 }
 
@@ -27,22 +27,20 @@ sudo ambari-agent restart
 sudo ambari-server setup -v -s
 sudo ambari-server restart
 
-echo "trying http://localhost:8080/api/v1/blueprints to confirm Ambari server is up..."
+echo "Trying http://localhost:8080/api/v1/blueprints to confirm Ambari server is up..."
 wait_until_some_http_status "http://admin:admin@localhost:8080/api/v1/blueprints" "200"
-sleep 2
+sleep 2 # wait a few moments longer just to let the server settle down
 
 curl -v -X POST -d @blueprint-big-1.json http://admin:admin@localhost:8080/api/v1/blueprints/bp-all-services --header "Content-Type:application/json" --header "X-Requested-By:mycompany"
 
-echo "trying http://localhost:8080/api/v1/clusters to confirm Ambari server is still up..."
+echo "Trying http://localhost:8080/api/v1/clusters to confirm Ambari server is still up..."
 wait_until_some_http_status "http://admin:admin@localhost:8080/api/v1/clusters" "200"
 
 my_fqdn=$(hostname -f)
 sed s/FQDN_GOES_HERE/$my_fqdn/ cluster-creation-raw.json > cluster-creation.json
 
-curl http://admin:admin@localhost:8080/api/v1/hosts
-
 echo ""
-echo "pausing for 15 seconds to let Ambari server settle down"
+echo "Pausing for 15 seconds to let Ambari server settle down"
 sleep 15
 curl -v -X POST -d @cluster-creation.json http://admin:admin@localhost:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header "X-Requested-By:mycompany"
 echo ""
