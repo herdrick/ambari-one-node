@@ -41,6 +41,7 @@ sed s/FQDN_GOES_HERE/$my_fqdn/ cluster-creation-raw.json > cluster-creation.json
 
 curl http://admin:admin@localhost:8080/api/v1/hosts
 
+echo
 echo 'pausing for 15 seconds to let Ambari server settle down'
 sleep 15
 curl -v -X POST -d @cluster-creation.json http://admin:admin@localhost:8080/api/v1/clusters/cl1 --header "Content-Type:application/json" --header 'X-Requested-By:mycompany'
